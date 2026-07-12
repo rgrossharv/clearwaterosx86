@@ -1,0 +1,15 @@
+[Unit]
+Description=Prepare ClearwaterOS live environment
+After=local-fs.target
+Before=display-manager.service
+ConditionPathExists=!/var/lib/clearwater/live-prepared
+
+[Service]
+Type=oneshot
+ExecStart=/root/customize_airootfs.sh
+ExecStartPost=/usr/bin/mkdir -p /var/lib/clearwater
+ExecStartPost=/usr/bin/touch /var/lib/clearwater/live-prepared
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

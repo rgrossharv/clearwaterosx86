@@ -1,0 +1,11 @@
+NAME="ClearwaterOS"
+PRETTY_NAME="ClearwaterOS Development Preview"
+ID=clearwater
+ID_LIKE=arch
+BUILD_ID=development
+ANSI_COLOR="1;36"
+HOME_URL="https://easternkentuckydigital.com/"
+DOCUMENTATION_URL="https://github.com/rgrossharv/clearwaterosx86"
+SUPPORT_URL="https://github.com/rgrossharv/clearwaterosx86/issues"
+BUG_REPORT_URL="https://github.com/rgrossharv/clearwaterosx86/issues"
+LOGO=clearwateros

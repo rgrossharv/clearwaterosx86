@@ -1,0 +1,6 @@
+/build/
+/cache/
+/work/
+*.iso
+*.img
+*.qcow2
