@@ -3,9 +3,10 @@ set -euo pipefail
 
 vendor="0x14e4"
 device="0x43ba"
-feature_disable="0x82000"
+feature_disable="82000"
 found=0
 networkmanager_was_active=0
+modprobe_config="/run/modprobe.d/clearwater-bcm43602-wifi.conf"
 
 for pci_device in /sys/bus/pci/devices/*; do
     [[ -r "$pci_device/vendor" && -r "$pci_device/device" ]] || continue
@@ -31,6 +32,10 @@ if (( found == 0 )); then
     exit 0
 fi
 
+install -d -m 0755 /run/modprobe.d
+printf 'options brcmfmac feature_disable=%s\n' "$feature_disable" > "$modprobe_config"
+logger -t clearwater-wifi "Wrote runtime brcmfmac option to $modprobe_config"
+
 if systemctl --quiet is-active NetworkManager.service; then
     networkmanager_was_active=1
     systemctl stop NetworkManager.service 2>/dev/null || true
@@ -41,6 +46,7 @@ modprobe -r brcmfmac 2>/dev/null || true
 modprobe -r brcmutil 2>/dev/null || true
 
 modprobe brcmfmac "feature_disable=$feature_disable"
+logger -t clearwater-wifi "Reloaded brcmfmac with feature_disable=$feature_disable"
 
 if (( networkmanager_was_active == 1 )); then
     systemctl start NetworkManager.service
