@@ -12,6 +12,7 @@ dolphin
 dosfstools
 e2fsprogs
 exfatprogs
+fastfetch
 firefox
 grub
 gvfs

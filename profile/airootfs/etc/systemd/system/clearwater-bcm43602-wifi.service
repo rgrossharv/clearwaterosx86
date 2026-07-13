@@ -1,7 +1,7 @@
 [Unit]
 Description=Apply Broadcom BCM43602 Wi-Fi compatibility option
 After=systemd-udev-settle.service
-Before=NetworkManager.service
+Before=network-pre.target NetworkManager.service display-manager.service
 Wants=systemd-udev-settle.service
 ConditionPathExistsGlob=/sys/bus/pci/devices/*/vendor
 
