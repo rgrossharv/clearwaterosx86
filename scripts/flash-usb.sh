@@ -52,10 +52,24 @@ sync
 
 echo
 echo "Flash complete."
+echo "Unmounting and powering off $TARGET_DEVICE..."
+
+udevadm settle 2>/dev/null || true
+sleep 2
+
+mapfile -t flashed_parts < <(lsblk -ln -o PATH "$TARGET_DEVICE" | tail -n +2)
+for part in "${flashed_parts[@]}"; do
+    udisksctl unmount -b "$part" 2>/dev/null || true
+done
+
+if udisksctl power-off -b "$TARGET_DEVICE"; then
+    echo "USB drive powered off. It is safe to remove."
+else
+    echo "Warning: automatic power-off failed. Check mounts with:" >&2
+    echo "  lsblk -o NAME,PATH,SIZE,MODEL,TRAN,TYPE,MOUNTPOINTS,FSTYPE,LABEL $TARGET_DEVICE" >&2
+    echo "Then retry:" >&2
+    echo "  udisksctl power-off -b $TARGET_DEVICE" >&2
+fi
+
 echo "Verify with:"
 echo "  lsblk -o NAME,PATH,SIZE,MODEL,TRAN,TYPE,MOUNTPOINTS,FSTYPE,LABEL $TARGET_DEVICE"
-echo
-echo "Eject with:"
-echo "  udisksctl unmount -b ${TARGET_DEVICE}1"
-echo "  udisksctl unmount -b ${TARGET_DEVICE}2"
-echo "  udisksctl power-off -b $TARGET_DEVICE"
