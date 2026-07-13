@@ -1,0 +1,8 @@
+sudo systemctl stop NetworkManager
+sudo ip link set wlan0 down
+
+sudo modprobe -r brcmfmac_wcc
+sudo modprobe -r brcmfmac
+
+sudo modprobe brcmfmac feature_disable=0x82000
+sudo systemctl start NetworkManager
