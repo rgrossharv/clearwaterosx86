@@ -18,9 +18,17 @@ required_files=(
     "$PROFILE_DIR/airootfs/etc/profile.d/clearwater-fastfetch.sh"
     "$PROFILE_DIR/airootfs/etc/skel/.bashrc"
     "$PROFILE_DIR/airootfs/etc/sddm.conf.d/10-clearwater-live.conf"
+    "$PROFILE_DIR/airootfs/etc/skel/.config/konsolerc"
+    "$PROFILE_DIR/airootfs/etc/skel/.local/share/konsole/ClearwaterOS.profile"
     "$PROFILE_DIR/airootfs/etc/sudoers.d/10-clearwater-live"
+    "$PROFILE_DIR/airootfs/etc/systemd/system/clearwater-flathub.service"
+    "$PROFILE_DIR/airootfs/etc/systemd/system/multi-user.target.wants/avahi-daemon.service"
     "$PROFILE_DIR/airootfs/etc/systemd/system/clearwater-bcm43602-wifi.service"
+    "$PROFILE_DIR/airootfs/etc/systemd/system/multi-user.target.wants/clearwater-flathub.service"
     "$PROFILE_DIR/airootfs/etc/systemd/system/multi-user.target.wants/clearwater-bcm43602-wifi.service"
+    "$PROFILE_DIR/airootfs/etc/systemd/system/multi-user.target.wants/cups.service"
+    "$PROFILE_DIR/airootfs/etc/systemd/system/multi-user.target.wants/firewalld.service"
+    "$PROFILE_DIR/airootfs/etc/systemd/system/sockets.target.wants/avahi-daemon.socket"
     "$PROFILE_DIR/airootfs/etc/sysusers.d/clearwater.conf"
     "$PROFILE_DIR/airootfs/etc/tmpfiles.d/clearwater.conf"
     "$PROFILE_DIR/airootfs/etc/xdg/kdeglobals"
@@ -41,7 +49,7 @@ fail() {
 }
 
 for required_file in "${required_files[@]}"; do
-    [[ -e "$required_file" ]] || fail "required file missing: $required_file"
+    [[ -e "$required_file" || -L "$required_file" ]] || fail "required file missing: $required_file"
 done
 
 duplicates="$(awk 'NF && $1 !~ /^#/ {print $1}' "$PROFILE_DIR/packages.x86_64" | sort | uniq -d)"
