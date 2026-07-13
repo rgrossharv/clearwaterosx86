@@ -48,10 +48,23 @@ restore_ownership() {
     fi
 }
 
+reset_work_dir() {
+    case "$WORK_DIR" in
+        "$PROJECT_ROOT"/work)
+            sudo rm -rf --one-file-system "$WORK_DIR"
+            mkdir -p "$WORK_DIR"
+            ;;
+        *)
+            echo "Error: refusing to remove unexpected work directory: $WORK_DIR" >&2
+            exit 1
+            ;;
+    esac
+}
+
 trap restore_ownership EXIT
 
-rm -rf "$WORK_DIR"
-mkdir -p "$WORK_DIR" "$OUTPUT_DIR" "$CACHE_DIR"
+mkdir -p "$OUTPUT_DIR" "$CACHE_DIR"
+reset_work_dir
 
 sudo podman run --rm \
     --network=host \

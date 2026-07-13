@@ -17,6 +17,7 @@ grub
 gvfs
 gvfs-mtp
 intel-ucode
+iptables
 konsole
 kwin
 linux-firmware
@@ -33,6 +34,7 @@ pacman
 pciutils
 pipewire
 pipewire-alsa
+pipewire-jack
 pipewire-pulse
 plasma-desktop
 plasma-nm
@@ -40,6 +42,7 @@ plasma-pa
 plasma-workspace
 plasma-x11-session
 powerdevil
+qt6-multimedia-ffmpeg
 sddm
 sddm-kcm
 sof-firmware
@@ -47,6 +50,7 @@ spectacle
 sudo
 syslinux
 systemsettings
+tesseract-data-eng
 ttf-dejavu
 ttf-liberation
 udisks2
