@@ -19,5 +19,6 @@ file_permissions=(
   ["/etc/sudoers.d/10-clearwater-live"]="0:0:440"
   ["/root"]="0:0:750"
   ["/root/.gnupg"]="0:0:700"
+  ["/usr/lib/clearwateros/fix-bcm43602-wifi"]="0:0:755"
   ["/usr/local/bin/choose-mirror"]="0:0:755"
 )

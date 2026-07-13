@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+vendor="0x14e4"
+device="0x43ba"
+feature_disable="0x82000"
+found=0
+networkmanager_was_active=0
+
+for pci_device in /sys/bus/pci/devices/*; do
+    [[ -r "$pci_device/vendor" && -r "$pci_device/device" ]] || continue
+    [[ "$(tr '[:upper:]' '[:lower:]' < "$pci_device/vendor")" == "$vendor" ]] || continue
+    [[ "$(tr '[:upper:]' '[:lower:]' < "$pci_device/device")" == "$device" ]] || continue
+
+    found=1
+    logger -t clearwater-wifi "Detected Broadcom BCM43602 at ${pci_device##*/}; applying brcmfmac compatibility option"
+
+    if [[ -d "$pci_device/net" ]]; then
+        for iface in "$pci_device"/net/*; do
+            [[ -e "$iface" ]] || continue
+            ip link set "${iface##*/}" down 2>/dev/null || true
+        done
+    fi
+
+    if [[ -w "$pci_device/power/control" ]]; then
+        printf 'on\n' > "$pci_device/power/control"
+    fi
+done
+
+if (( found == 0 )); then
+    exit 0
+fi
+
+if systemctl --quiet is-active NetworkManager.service; then
+    networkmanager_was_active=1
+    systemctl stop NetworkManager.service 2>/dev/null || true
+fi
+
+modprobe -r brcmfmac_wcc 2>/dev/null || true
+modprobe -r brcmfmac 2>/dev/null || true
+modprobe -r brcmutil 2>/dev/null || true
+
+modprobe brcmfmac "feature_disable=$feature_disable"
+
+if (( networkmanager_was_active == 1 )); then
+    systemctl start NetworkManager.service
+fi

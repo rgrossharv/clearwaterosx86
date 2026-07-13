@@ -16,8 +16,14 @@ required_files=(
     "$PROFILE_DIR/airootfs/etc/motd"
     "$PROFILE_DIR/airootfs/etc/sddm.conf.d/10-clearwater-live.conf"
     "$PROFILE_DIR/airootfs/etc/sudoers.d/10-clearwater-live"
+    "$PROFILE_DIR/airootfs/etc/systemd/system/clearwater-bcm43602-wifi.service"
+    "$PROFILE_DIR/airootfs/etc/systemd/system/multi-user.target.wants/clearwater-bcm43602-wifi.service"
     "$PROFILE_DIR/airootfs/etc/sysusers.d/clearwater.conf"
     "$PROFILE_DIR/airootfs/etc/tmpfiles.d/clearwater.conf"
+    "$PROFILE_DIR/airootfs/etc/xdg/plasmarc"
+    "$PROFILE_DIR/airootfs/usr/lib/clearwateros/fix-bcm43602-wifi"
+    "$PROFILE_DIR/airootfs/usr/share/wallpapers/ClearwaterOS/contents/images/clearwater.jpg"
+    "$PROFILE_DIR/airootfs/usr/share/wallpapers/ClearwaterOS/metadata.json"
 )
 
 fail() {

@@ -1,0 +1,13 @@
+[Unit]
+Description=Apply Broadcom BCM43602 Wi-Fi compatibility option
+After=systemd-udev-settle.service
+Before=NetworkManager.service
+Wants=systemd-udev-settle.service
+ConditionPathExistsGlob=/sys/bus/pci/devices/*/vendor
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/clearwateros/fix-bcm43602-wifi
+
+[Install]
+WantedBy=multi-user.target
