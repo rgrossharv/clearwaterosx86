@@ -2,6 +2,11 @@
 
 ClearwaterOS x86 is an Arch Linux based live ISO for older x86-64 computers, with KDE Plasma, Broadcom Wi-Fi compatibility handling, and a Calamares installer.
 
+The repository builds two editions:
+
+- ClearwaterOS: the regular desktop ISO with Discover, Flatpak, LibreOffice, media apps, printing, scanning, firewall, and desktop utilities.
+- ClearwaterOS Creedence: a barebones KDE ISO for developers and underpowered machines. It keeps Arch, KDE, Broadcom Wi-Fi support, Firefox, Dolphin, Konsole, Kate, fastfetch, core firmware, audio, Bluetooth basics, and Calamares.
+
 The ISO is built with Archiso inside rootful Podman on Ubuntu/Xubuntu.
 
 ## Build
@@ -12,7 +17,7 @@ Build the rootful Podman image from the repository root:
 sudo podman build --network=host -t localhost/clearwater-builder:latest .
 ```
 
-Build the ISO:
+Build the regular ISO:
 
 ```bash
 ./scripts/build-iso.sh
@@ -26,9 +31,23 @@ On this build machine, the convenience command is:
 
 The ISO and checksum are written to `build/`.
 
+Build the Creedence ISO:
+
+```bash
+./scripts/build-creedence.sh
+```
+
+On this build machine, the Creedence convenience command is:
+
+```bash
+./buildcreedence
+```
+
+The Creedence ISO and checksum are written to `build-creedence/`.
+
 ## Installer
 
-The live desktop includes an `Install ClearwaterOS` launcher that starts Calamares. Calamares installs the live system to disk, creates the selected user, enables the normal desktop services, regenerates initramfs, installs GRUB, and removes live-only autologin, sudo, installer, and temporary setup files from the installed system.
+The live desktop includes one installer launcher: `Install ClearwaterOS` on the regular ISO and `Install ClearwaterOS Creedence` on Creedence. The launcher starts Calamares through a live-session sudo wrapper so the GUI can inherit the KDE display environment. Calamares installs the live system to disk, creates the selected user, enables the normal desktop services, regenerates initramfs, installs GRUB, and removes live-only autologin, sudo, installer, and temporary setup files from the installed system.
 
 Calamares is not in the official Arch repositories, so the Podman builder builds the AUR `calamares` package into a local repo at `/opt/clearwater-repo`. The live profile uses that local repo only during ISO construction. The installed system removes the local repo entry and Calamares package during installer cleanup.
 
@@ -60,6 +79,12 @@ Copy the ISO to another machine with `scp`:
 scp build/clearwateros-*.iso user@other-machine:~/
 ```
 
+For Creedence:
+
+```bash
+scp build-creedence/clearwateros-creedence-*.iso user@other-machine:~/
+```
+
 ## Flash USB
 
 Use the repository flash helper for the previously used thumb drive:
@@ -72,6 +97,18 @@ On this build machine, the convenience command is:
 
 ```bash
 ./scripts/flashcwos
+```
+
+Flash the newest Creedence ISO to the same thumb drive:
+
+```bash
+./scripts/flash-creedence.sh /dev/sdc
+```
+
+Or use the Creedence convenience command:
+
+```bash
+./flashcreedence
 ```
 
 Manual flashing with `dd`:

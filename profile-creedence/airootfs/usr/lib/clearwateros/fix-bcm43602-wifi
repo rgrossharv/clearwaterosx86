@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+vendor="0x14e4"
+problem_devices=("0x43ba")
+feature_disable="0x82000"
+found=0
+networkmanager_was_active=0
+modprobe_config="/run/modprobe.d/clearwater-bcm43602-wifi.conf"
+matched_devices=()
+matched_paths=()
+
+is_problem_device() {
+    local candidate="$1"
+    local problem_device
+
+    for problem_device in "${problem_devices[@]}"; do
+        [[ "$candidate" == "$problem_device" ]] && return 0
+    done
+
+    return 1
+}
+
+interface_belongs_to_device() {
+    local iface="$1"
+    local pci_device="$2"
+    local iface_device
+
+    iface_device="$(readlink -f "/sys/class/net/$iface/device" 2>/dev/null || true)"
+    [[ -n "$iface_device" && "$iface_device" == "$pci_device"* ]]
+}
+
+down_matching_interfaces() {
+    local pci_device="$1"
+    local iface
+
+    for iface_path in /sys/class/net/*; do
+        [[ -e "$iface_path" ]] || continue
+        iface="${iface_path##*/}"
+        interface_belongs_to_device "$iface" "$pci_device" || continue
+        logger -t clearwater-wifi "Bringing down $iface before brcmfmac reload"
+        ip link set "$iface" down 2>/dev/null || true
+    done
+}
+
+for pci_device in /sys/bus/pci/devices/*; do
+    [[ -r "$pci_device/vendor" && -r "$pci_device/device" ]] || continue
+    [[ "$(tr '[:upper:]' '[:lower:]' < "$pci_device/vendor")" == "$vendor" ]] || continue
+    device="$(tr '[:upper:]' '[:lower:]' < "$pci_device/device")"
+    is_problem_device "$device" || continue
+
+    found=1
+    matched_devices+=("${pci_device##*/}")
+    matched_paths+=("$pci_device")
+    logger -t clearwater-wifi "Detected Broadcom BCM43602 $vendor:$device at ${pci_device##*/}; applying brcmfmac compatibility option"
+
+    if [[ -w "$pci_device/power/control" ]]; then
+        printf 'on\n' > "$pci_device/power/control"
+    fi
+done
+
+if (( found == 0 )); then
+    exit 0
+fi
+
+install -d -m 0755 /run/modprobe.d
+printf 'options brcmfmac feature_disable=%s\n' "$feature_disable" > "$modprobe_config"
+logger -t clearwater-wifi "Wrote runtime brcmfmac option to $modprobe_config"
+
+if systemctl --quiet is-active NetworkManager.service; then
+    networkmanager_was_active=1
+    systemctl stop NetworkManager.service 2>/dev/null || true
+fi
+
+for pci_device in "${matched_paths[@]}"; do
+    down_matching_interfaces "$pci_device"
+done
+
+modprobe -r brcmfmac_wcc 2>/dev/null || true
+modprobe -r brcmfmac 2>/dev/null || true
+
+modprobe brcmfmac "feature_disable=$feature_disable"
+logger -t clearwater-wifi "Reloaded brcmfmac with feature_disable=$feature_disable for PCI devices: ${matched_devices[*]}"
+
+if (( networkmanager_was_active == 1 )); then
+    systemctl start NetworkManager.service
+fi

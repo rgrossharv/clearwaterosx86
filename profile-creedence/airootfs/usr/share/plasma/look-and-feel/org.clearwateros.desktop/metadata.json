@@ -1,0 +1,14 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "ClearwaterOS"
+            }
+        ],
+        "Category": "",
+        "Description": "ClearwaterOS live desktop defaults",
+        "Id": "org.clearwateros.desktop",
+        "License": "GPL-2.0+",
+        "Name": "ClearwaterOS"
+    }
+}

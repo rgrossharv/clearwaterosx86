@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+export QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-xcb}"
+
+if [[ "$(id -u)" -eq 0 ]]; then
+    exec /usr/bin/calamares
+fi
+
+exec sudo --preserve-env=DISPLAY,XAUTHORITY,XDG_RUNTIME_DIR,WAYLAND_DISPLAY,DBUS_SESSION_BUS_ADDRESS,QT_QPA_PLATFORM /usr/bin/calamares

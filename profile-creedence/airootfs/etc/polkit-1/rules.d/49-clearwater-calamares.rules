@@ -1,0 +1,11 @@
+polkit.addRule(function(action, subject) {
+    if (subject.user == "clearwater" && action.id.indexOf("com.github.calamares") == 0) {
+        return polkit.Result.YES;
+    }
+
+    if (subject.user == "clearwater" &&
+            action.id == "org.freedesktop.policykit.exec" &&
+            action.lookup("program") == "/usr/bin/calamares") {
+        return polkit.Result.YES;
+    }
+});

@@ -1,0 +1,30 @@
+{
+    "logo": {
+        "type": "file",
+        "source": "/usr/share/clearwateros/fastfetch-logo.txt",
+        "padding": {
+            "right": 2
+        }
+    },
+    "display": {
+        "separator": "  "
+    },
+    "modules": [
+        "title",
+        "separator",
+        "os",
+        "host",
+        "kernel",
+        "uptime",
+        "packages",
+        "shell",
+        "de",
+        "wm",
+        "terminal",
+        "cpu",
+        "gpu",
+        "memory",
+        "disk",
+        "localip"
+    ]
+}

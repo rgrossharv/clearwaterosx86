@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Install ClearwaterOS Creedence
+GenericName=System Installer
+Comment=Install ClearwaterOS Creedence to this computer
+Exec=/usr/local/bin/install-clearwateros
+Icon=calamares
+Terminal=false
+StartupNotify=true
+Categories=Qt;System;

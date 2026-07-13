@@ -1,6 +1,8 @@
 /build/
+/build-creedence/
 /cache/
 /work/
+/work-creedence/
 *.iso
 *.img
 *.qcow2

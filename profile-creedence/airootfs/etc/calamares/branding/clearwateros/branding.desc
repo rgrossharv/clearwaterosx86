@@ -1,0 +1,27 @@
+---
+componentName: clearwateros
+welcomeStyleCalamares: true
+welcomeExpandingLogo: true
+
+strings:
+  productName: ClearwaterOS Creedence
+  shortProductName: Creedence
+  version: Development Preview
+  shortVersion: Preview
+  versionedName: ClearwaterOS Creedence Development Preview
+  shortVersionedName: Creedence
+  bootloaderEntryName: ClearwaterOS Creedence
+  productUrl: https://easternkentuckydigital.com/
+  supportUrl: https://github.com/rgrossharv/clearwaterosx86/issues
+  knownIssuesUrl: https://github.com/rgrossharv/clearwaterosx86/issues
+  releaseNotesUrl: https://github.com/rgrossharv/clearwaterosx86
+
+images:
+  productLogo: "clearwater-logo.svg"
+  productIcon: "clearwater-logo.svg"
+  productWelcome: "clearwater-welcome.svg"
+
+style:
+  sidebarBackground: "#f7f9fb"
+  sidebarText: "#1b2430"
+  sidebarTextSelect: "#0f5f8d"

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
 
-iso_name="clearwateros"
-iso_label="CLEARWATER_$(date --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y%m)"
+iso_name="clearwateros-creedence"
+iso_label="CREEDENCE_$(date --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y%m)"
 iso_publisher="Eastern Kentucky Digital <https://easternkentuckydigital.com>"
-iso_application="ClearwaterOS KDE Live"
+iso_application="ClearwaterOS Creedence KDE Live"
 iso_version="$(date --date="@${SOURCE_DATE_EPOCH:-$(date +%s)}" +%Y.%m.%d)"
-install_dir="clearwater"
+install_dir="creedence"
 buildmodes=('iso')
 bootmodes=('bios.syslinux'
            'uefi.systemd-boot')

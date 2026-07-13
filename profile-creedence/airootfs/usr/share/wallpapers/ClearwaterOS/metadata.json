@@ -1,0 +1,12 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "ClearwaterOS"
+            }
+        ],
+        "Id": "ClearwaterOS",
+        "License": "CC-BY-2.0",
+        "Name": "ClearwaterOS"
+    }
+}
