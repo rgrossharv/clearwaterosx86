@@ -10,6 +10,7 @@ breeze
 breeze-gtk
 breeze-icons
 btrfs-progs
+calamares
 cups
 cups-filters
 dhclient
@@ -18,6 +19,7 @@ dmidecode
 dolphin
 dosfstools
 e2fsprogs
+efibootmgr
 elisa
 exfatprogs
 fastfetch
@@ -98,6 +100,7 @@ skanpage
 smartmontools
 sof-firmware
 spectacle
+squashfs-tools
 sudo
 syslinux
 system-config-printer

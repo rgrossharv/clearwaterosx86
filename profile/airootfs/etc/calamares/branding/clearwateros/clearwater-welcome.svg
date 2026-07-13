@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="240" viewBox="0 0 720 240">
+  <rect width="720" height="240" fill="#f7f9fb"/>
+  <path d="M40 145c63-79 134-106 213-80 38 12 72 11 101-5-22 59-58 99-107 121-64 28-133 16-207-36z" fill="#1687a7"/>
+  <path d="M58 174c88 38 161 28 219-30 40-40 76-63 109-69-23 54-56 93-99 116-67 37-143 31-229-17z" fill="#74c69d"/>
+  <text x="455" y="95" font-family="serif" font-size="48" font-style="italic" fill="#1b2430">ClearwaterOS</text>
+  <text x="458" y="135" font-family="serif" font-size="22" fill="#405060">made by Eastern Kentucky Digital</text>
+</svg>
